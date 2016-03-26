@@ -1,0 +1,15 @@
+#area{
+  display: inline-block;
+}
+.circle {
+  width:100px;
+  height:100px;
+  border-radius:50%;
+  font-size:50px;
+  color:#fff;
+  line-height:500px;
+  text-align:center;
+  background:#1aba9a;
+  float: left;
+  margin: 0.5rem;
+}
