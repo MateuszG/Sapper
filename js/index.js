@@ -1,14 +1,28 @@
-let config = function(){
+config = function(){
   return{
     MAX_GAME_TIME_IN_SEC: 40,
     COLUMNS: 5,
     ROWS: 5,
-    REWARDS: 10
+    ATTEMPTS: 10
   }
 }();
 
+function dotClicked(e) {
+  if (config.ATTEMPTS > 0) {
+    let element = e.target;
+    if ($(element).data('win') === true) {
+      $(element).addClass("found");
+    } else {
+      $(element).addClass("empty");
+    }
+    config.ATTEMPTS -= 1;
+  }
+  $('#attempts').text(config.ATTEMPTS);
+}
+
 $(document).ready(function() {
-  let defaultArea = new Area(config.COLUMNS, config.ROWS);
+  $('#attempts').text(config.ATTEMPTS);
+  new Area(config.COLUMNS, config.ROWS);
 });
 
 class Dot{
@@ -24,7 +38,7 @@ class Area{
     this.points = [];
     this.createShapes(columns, rows);
     this.drawObjectsOnCanvas(this.points);
-    this.setRandomWinDots(this.points);
+    this.setRandomWinDot(this.points);
   }
 
   createShapes(columns, rows) {
@@ -45,18 +59,14 @@ class Area{
     }
   }
 
-  setRandomWinDots(shapes) {
-    let rewardsLeft = config.REWARDS;
-    if (shapes.length < config.REWARDS) {
-      console.log('Error: Elements should be more than rewards')
+  setRandomWinDot(shapes) {
+    if (shapes.length < config.ATTEMPTS) {
+      console.log('Error: Elements should be more than attempts!')
       return
     }
     let allCircles = $('.circle');
-    while (rewardsLeft > 0) {
-      let randCircles = Math.floor((Math.random() * allCircles.length));
-      $(allCircles[randCircles]).data('win', true);
-      rewardsLeft -= 1;
-    }
-
+    let winCircle = Math.floor((Math.random() * allCircles.length));
+    $(allCircles[winCircle]).data('win', true);
+    $('.circle').on('click', dotClicked);
   }
 }
