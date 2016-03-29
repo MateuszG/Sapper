@@ -3,7 +3,9 @@ config = function(){
     MAX_GAME_TIME_IN_SEC: 40,
     COLUMNS: 5,
     ROWS: 5,
-    ATTEMPTS: 10
+    ATTEMPTS: 10,
+    area: {},
+    interval: {}
   }
 }();
 
@@ -15,22 +17,21 @@ function dotClicked(e) {
     if (!(($(element).hasClass('empty')) || $(element).hasClass('empty'))) {
       if ($(element).data('win') === true) {
         $(element).addClass("found");
-        $('#area').append($('<div>').addClass("label").text('You win'));
-        $('.circle').hide();
+        config.area.gameOver('win');
       } else {
         $(element).addClass("empty");
       }
     }
   } else if (config.ATTEMPTS == 0) {
-    $('#area').append($('<div>').addClass("label").text('You lose'));
-    $('.circle').hide();
+    config.area.gameOver('lose');
   }
   $('#attempts').text(config.ATTEMPTS);
 }
 
 $(document).ready(function() {
   $('#attempts').text(config.ATTEMPTS);
-  new Area(config.COLUMNS, config.ROWS);
+  config.area = new Area(config.COLUMNS, config.ROWS);
+  startTimer(config.MAX_GAME_TIME_IN_SEC, $('#seconds'));
 });
 
 class Dot{
@@ -77,4 +78,19 @@ class Area{
     $(allCircles[winCircle]).data('win', true);
     $('.circle').on('click', dotClicked);
   }
+
+  gameOver(state) {
+    $('#area').append($('<div>').addClass("label").text(`You ${state}!`));
+    clearInterval(config.interval);
+  }
+}
+
+function startTimer(duration, display) {
+  display.text(duration);
+  config.interval = setInterval(function () {
+    display.text(duration);
+    if (--duration < 0) {
+        config.area.gameOver('lose');
+    }
+  }, 1000);
 }
