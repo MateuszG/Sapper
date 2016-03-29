@@ -4,13 +4,12 @@
   "description": "Celem zadania jest napisanie prostej gry działającej wyłącznie w pamięci.",
   "main": "index.js",
   "dependencies": {
-    "jquery": "~2.2.2",
-    "nightwatch": "~0.8.18",
+    "jquery": "~2.2.2"
+  },
+  "devDependencies": {
     "qunitjs": "~1.23.0"
   },
-  "devDependencies": {},
-  "scripts": {
-  },
+  "scripts": {},
   "author": "",
   "license": "BSD-2-Clause"
 }

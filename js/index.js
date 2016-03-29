@@ -10,19 +10,20 @@ config = function(){
 }();
 
 function dotClicked(e) {
-  config.ATTEMPTS -= 1;
+  let element = e.target;
+  if (!(($(element).hasClass('empty')) || $(element).hasClass('empty'))) {
+    config.ATTEMPTS -= 1;
+  }
 
   if (config.ATTEMPTS > 0) {
-    let element = e.target;
-    if (!(($(element).hasClass('empty')) || $(element).hasClass('empty'))) {
-      if ($(element).data('win') === true) {
-        $(element).addClass("found");
-        config.area.gameOver('win');
-      } else {
-        $(element).addClass("empty");
-      }
+    if ($(element).data('win') === true) {
+      $(element).addClass("found");
+      config.area.gameOver('win');
+    } else {
+      $(element).addClass("empty");
     }
   } else if (config.ATTEMPTS == 0) {
+    $(element).addClass("empty");
     config.area.gameOver('lose');
   }
   $('#attempts').text(config.ATTEMPTS);
@@ -30,7 +31,7 @@ function dotClicked(e) {
 
 $(document).ready(function() {
   $('#attempts').text(config.ATTEMPTS);
-  config.area = new Area(config.COLUMNS, config.ROWS);
+  config.area = new Area(config.COLUMNS, config.ROWS, config.ATTEMPTS);
   startTimer(config.MAX_GAME_TIME_IN_SEC, $('#seconds'));
 });
 
@@ -43,11 +44,11 @@ class Dot{
 }
 
 class Area{
-  constructor(columns, rows) {
+  constructor(columns, rows, attempts) {
     this.points = [];
     this.createShapes(columns, rows);
-    this.drawObjectsOnCanvas(this.points);
-    this.setRandomWinDot(this.points);
+    this.appendShapes(this.points);
+    this.setRandomDotAsWin(this.points, attempts);
   }
 
   createShapes(columns, rows) {
@@ -58,7 +59,7 @@ class Area{
     }
   }
 
-  drawObjectsOnCanvas(shapes) {
+  appendShapes(shapes) {
     for (let i in shapes) {
       let shape = shapes[i];
       let newElement = $('<div>').attr(
@@ -68,10 +69,10 @@ class Area{
     }
   }
 
-  setRandomWinDot(shapes) {
-    if (shapes.length < config.ATTEMPTS) {
+  setRandomDotAsWin(shapes, attempts) {
+    if (shapes.length < attempts) {
       console.log('Error: Elements should be more than attempts!')
-      return
+      return false
     }
     let allCircles = $('.circle');
     let winCircle = Math.floor((Math.random() * allCircles.length));
