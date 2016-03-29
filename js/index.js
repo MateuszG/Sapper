@@ -8,14 +8,22 @@ config = function(){
 }();
 
 function dotClicked(e) {
+  config.ATTEMPTS -= 1;
+
   if (config.ATTEMPTS > 0) {
     let element = e.target;
-    if ($(element).data('win') === true) {
-      $(element).addClass("found");
-    } else {
-      $(element).addClass("empty");
+    if (!(($(element).hasClass('empty')) || $(element).hasClass('empty'))) {
+      if ($(element).data('win') === true) {
+        $(element).addClass("found");
+        $('#area').append($('<div>').addClass("label").text('You win'));
+        $('.circle').hide();
+      } else {
+        $(element).addClass("empty");
+      }
     }
-    config.ATTEMPTS -= 1;
+  } else if (config.ATTEMPTS == 0) {
+    $('#area').append($('<div>').addClass("label").text('You lose'));
+    $('.circle').hide();
   }
   $('#attempts').text(config.ATTEMPTS);
 }
