@@ -72,7 +72,7 @@ class Area{
   setRandomDotAsWin(shapes, attempts) {
     if (shapes.length < attempts) {
       console.log('Error: Elements should be more than attempts!')
-      return false
+      return false;
     }
     let allCircles = $('.circle');
     let winCircle = Math.floor((Math.random() * allCircles.length));
