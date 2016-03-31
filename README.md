@@ -1,3 +1,5 @@
+![GitHub Logo](/example.png)
+
 Celem zadania jest napisanie prostej gry działającej wyłącznie w pamięci.
 
 Dostępne narzędzia i technologie:
@@ -19,4 +21,4 @@ Wytyczne względem kodu:
 - [x] kod nie powinien zawierać żadnych globalnych zmiennych.
 - [x] globalne obiekty typu window czy document powinny być przekazane do obiektów jako zależności (bez odwołań do nich bezpośrednio).
 - [x] wartości typu czas gry czy ilość kolumn/wierszy powinny być częścią konfiguracji gry.
-- [ ] kod powinien być pokryty testami jednostkowymi oraz integracyjnymi - ilość testów nie jest istotna, istotna jest jakość i zysk jaki te testy wniosą do kodu.
+- [x] kod powinien być pokryty testami jednostkowymi oraz integracyjnymi - ilość testów nie jest istotna, istotna jest jakość i zysk jaki te testy wniosą do kodu.
