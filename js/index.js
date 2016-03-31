@@ -1,5 +1,5 @@
-config = function(){
-  return{
+config = (() => {
+  return {
     MAX_GAME_TIME_IN_SEC: 40,
     COLUMNS: 5,
     ROWS: 5,
@@ -7,9 +7,9 @@ config = function(){
     area: {},
     interval: {}
   }
-}();
+})();
 
-$(document).ready(function() {
+$(document).ready(() => {
   $('#attempts').text(config.ATTEMPTS);
   config.area = new Area(config.COLUMNS, config.ROWS, config.ATTEMPTS);
   startTimer(config.MAX_GAME_TIME_IN_SEC, $('#seconds'));
@@ -87,7 +87,7 @@ class Area{
 
 function startTimer(duration, display) {
   display.text(duration);
-  config.interval = setInterval(function () {
+  config.interval = setInterval(() => {
     display.text(duration);
     if (--duration < 0) {
         config.area.gameOver('lose');
